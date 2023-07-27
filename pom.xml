@@ -7,6 +7,7 @@
   <groupId>com.example</groupId>
   <artifactId>demo</artifactId>
   <version>1.0</version>
+  <packaging>jar</packaging>
 
   <name>demo</name>
   <!-- FIXME change it to the project's website -->
@@ -19,13 +20,49 @@
   </properties>
 
   <build>
-    <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
+    <pluginManagement> <!--lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
         <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
         <plugin>
           <artifactId>maven-clean-plugin</artifactId>
           <version>3.1.0</version>
         </plugin>
+              <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.5.0</version>
+        <configuration>
+                <shadedArtifactAttached>true</shadedArtifactAttached>
+                <transformers>
+                    <transformer implementation=
+                      "org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                      <manifestEntries>
+                        <Main-Class>com.example.App</Main-Class>
+
+                 <!--       <addClasspath>true</addClasspath> 
+                        <classpathPrefix>target/classes</classpathPrefix> -->
+                      </manifestEntries>
+                </transformer>
+            </transformers>
+            <filters>
+   <filter>
+      <artifact>com.explodingart:*</artifact>
+      <excludes>
+         <exclude>META-INF/*.MF</exclude>
+      </excludes>
+   </filter>
+</filters>
+
+        </configuration>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
         <!-- default lifecycle, jar packaging: see https://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
         <plugin>
           <artifactId>maven-resources-plugin</artifactId>
@@ -39,8 +76,8 @@
           <artifactId>maven-surefire-plugin</artifactId>
           <version>2.22.1</version>
         </plugin>
-        <plugin>
-          <artifactId>maven-jar-plugin</artifactId> <!-- SETUP Parameters for the executable!!!!  -->
+        <!-- <plugin>
+          <artifactId>maven-jar-plugin</artifactId> 
           <version>3.0.2</version>
               <configuration>
                 <archive>
@@ -51,7 +88,7 @@
                   </manifest>
                 </archive>
               </configuration>
-        </plugin>
+        </plugin> -->
         <plugin>
           <artifactId>maven-deploy-plugin</artifactId>
           <version>3.0.0-M1</version>
@@ -68,7 +105,20 @@
         </plugin>
 
       </plugins>
-    </pluginManagement>
+  </pluginManagement> 
+
+      <!-- plugins section : plugins that are invoked when building the project -->
+    <plugins>
+        <plugin>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>3.1.0</version>
+        </plugin>
+        <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+        </plugin>
+    </plugins>
+
   </build>
 
 <dependencies>
