@@ -19,7 +19,7 @@ public class App {
 	static MidiFileToNotes midiNotes; //read a midi file
 	static int noteCount = 0; 
 
-	static String filePath = "mid/gardel_por.mid"; //path to the midi file -- you can change this to your file location/name
+	static String filePath = "mid/MaryHadALittleLamb.mid"; //path to the midi file -- you can change this to your file location/name
 
 
 	public static void main(String[] args) {
@@ -28,8 +28,8 @@ public class App {
 		//setup the melody player
 		//uncomment below when you are ready to test or present sound output
 		//make sure that it is commented out for your final submit to github (eg. when pushing)
-		//setup();
-		//playMelody();
+		setup();
+		playMelody();
 
 		//add your hello, world! code here!
 
@@ -66,6 +66,7 @@ public class App {
 
 		//Change the bus to the relevant port -- if you have named it something different OR you are using Windows
 		player = new MelodyPlayer(100, "Bus 1"); //sets up the player with your bus. 
+		//player.listDevices(); //prints available midi devices to the console -- find your device
 
 		midiNotes = new MidiFileToNotes(filePath); // creates a new MidiFileToNotes -- reminder -- ALL objects in Java
 													// must

@@ -30,8 +30,10 @@ public class MelodyPlayer {
 
 	boolean hasRhythm; //has there been a list of rhythms assigned?
 	boolean hasMelody; //has there been a list of pitches assigned?
+	boolean lastNoteOff = false; //have we sent the last note off?
 
 	String outputBus; //bus to send MIDI to -- change if you have named it something else or you are using Windows
+
 	
 
 	//constructor -- initializes data)
@@ -104,15 +106,19 @@ public class MelodyPlayer {
 			//System.out.println("note off:" + (note_index - 1)); //TODO: comment out when not debugging or not needed
 
 			// don't send anything else if done
-			if (note_index == melody.size())
+			if (note_index == melody.size() && lastNoteOff )
 				note_index = 0;// ++; //cycle vs. stop at end ? TODO: create as an option
+			else if (note_index == melody.size() && !lastNoteOff)
+			{
+				lastNoteOff = true;
+			}
 		}
 		
 		//send out next pitch, find next rhythm / duration
 		if (note_index < melody.size() && note_index > -1 && play) {
 
 			outputMidiBus.sendNoteOn(0, (int) melody.get(note_index), vel);
-			System.out.println("note on:" + note_index); //TODO: comment out when not debugging or not needed
+			//System.out.println("note on:" + note_index); //TODO: comment out when not debugging or not needed
 			//get -- if its a noteOn, & what note
 			if (hasRhythm)
 				rhythm_multiplier = rhythm.get(note_index);
@@ -120,15 +126,16 @@ public class MelodyPlayer {
 			note_index++;
 		}
 	}
-
+	
 	//reset note to 0
 	void reset() {
 		note_index = 0;
+		lastNoteOff = false;
 	}
 
 	//have we reached the end of the melody?
 	boolean atEndOfMelody()
 	{
-		return note_index >= melody.size();
+		return note_index >= melody.size() && lastNoteOff;
 	}
 }
