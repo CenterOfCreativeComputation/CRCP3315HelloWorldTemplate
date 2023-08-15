@@ -28,8 +28,8 @@ public class App {
 		//setup the melody player
 		//uncomment below when you are ready to test or present sound output
 		//make sure that it is commented out for your final submit to github (eg. when pushing)
-		setup();
-		playMelody();
+		//setup();
+		//playMelody();
 
 		//add your hello, world! code here!
 
@@ -51,6 +51,7 @@ public class App {
 	//plays the midi file using the player -- so sends the midi to an external synth such as Kontakt or a DAW like Ableton or Logic
 	static public void playMelody() {
 
+		//NOTE: for assert() to work, you need to change the Java extension settings to run with assertions enabled
 		assert(player != null); //this will throw an error if player is null -- eg. if you haven't called setup() first
 
 		while( !player.atEndOfMelody() )

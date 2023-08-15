@@ -108,9 +108,9 @@ public class MelodyPlayer {
 			// don't send anything else if done
 			if (note_index == melody.size() && lastNoteOff )
 				note_index = 0;// ++; //cycle vs. stop at end ? TODO: create as an option
-			else if (note_index == melody.size() && !lastNoteOff)
+			else if (note_index == melody.size() && !lastNoteOff) //need to send the last note off before stopping, though, otherwise it hangs....
 			{
-				lastNoteOff = true;
+				lastNoteOff = true; 
 			}
 		}
 		
