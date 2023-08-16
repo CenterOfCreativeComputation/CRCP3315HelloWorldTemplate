@@ -19,7 +19,7 @@ public class App {
 	static MidiFileToNotes midiNotes; //read a midi file
 	static int noteCount = 0; 
 
-	//WINDOWS - uncomment if Windows and comment the OS X line below
+	//WINDOWS - uncomment if Windows and comment the OS X line below -- Windows and OS X handle file paths differently
 	//static String filePath = "mid\\MaryHadALittleLamb.mid";
 
 	//OS X
