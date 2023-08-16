@@ -19,6 +19,10 @@ public class App {
 	static MidiFileToNotes midiNotes; //read a midi file
 	static int noteCount = 0; 
 
+	//WINDOWS - uncomment if Windows and comment the OS X line below
+	//static String filePath = "mid\\MaryHadALittleLamb.mid";
+
+	//OS X
 	static String filePath = "mid/MaryHadALittleLamb.mid"; //path to the midi file -- you can change this to your file location/name
 
 
@@ -28,8 +32,8 @@ public class App {
 		//setup the melody player
 		//uncomment below when you are ready to test or present sound output
 		//make sure that it is commented out for your final submit to github (eg. when pushing)
-		//setup();
-		//playMelody();
+		setup();
+		playMelody();
 
 		//add your hello, world! code here!
 
@@ -82,6 +86,7 @@ public class App {
 
 		noteCount = midiNotes.getPitchArray().size(); //get the number of notes in the midi file
 
+		//NOTE: for assert() to work, you need to change the Java extension settings to run with assertions enabled
 		assert(noteCount > 0); // make sure it got some notes (throw an error to alert you, the coder, if not)
 
 
