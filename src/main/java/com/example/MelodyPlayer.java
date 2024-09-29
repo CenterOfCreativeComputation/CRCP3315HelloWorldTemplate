@@ -118,7 +118,7 @@ public class MelodyPlayer {
 		if (note_index < melody.size() && note_index > -1 && play) {
 
 			outputMidiBus.sendNoteOn(0, (int) melody.get(note_index), vel);
-			//System.out.println("note on:" + note_index); //TODO: comment out when not debugging or not needed
+			System.out.println("note on:" + note_index); //TODO: comment out when not debugging or not needed
 			//get -- if its a noteOn, & what note
 			if (hasRhythm)
 				rhythm_multiplier = rhythm.get(note_index);

@@ -11,6 +11,8 @@ package com.example;
 //importing the JMusic stuff
 import jm.music.data.*;
 import jm.util.*;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
 
 //make sure this class name matches your file name, if not fix.
 public class App {
@@ -18,13 +20,13 @@ public class App {
 	static MelodyPlayer player; //play a midi sequence
 	static MidiFileToNotes midiNotes; //read a midi file
 	static int noteCount = 0; 
+	
+	//make cross-platform
+	static FileSystem sys = FileSystems.getDefault();
 
-	//WINDOWS - uncomment if Windows and comment the OS X line below -- Windows and OS X handle file paths differently
-	//static String filePath = "mid\\MaryHadALittleLamb.mid";
-
-	//OS X
-	static String filePath = "mid/MaryHadALittleLamb.mid"; //path to the midi file -- you can change this to your file location/name
-
+	//the getSeperator() creates the appropriate back or forward slash based on the OS in which it is running -- OS X & Windows use same code :) 
+	static String filePath = "mid"  + sys.getSeparator() +  "MaryHadALittleLamb.mid"; // path to the midi file -- you can change this to your file
+																// location/name
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
