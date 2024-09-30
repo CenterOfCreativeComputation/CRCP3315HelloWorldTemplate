@@ -1,25 +1,29 @@
 /*
- * c2017-2023 Courtney Brown 
+ * c2017-2024 Courtney Brown 
  * Class: Main Class for Hello World for CC3 Class Projects streaming MIDI, etc.
- * Description: Demonstration of MIDI file manipulations, etc. & 'MelodyPlayer' sequencer
+ * Description: Demonstration of MIDI file manipulations, etc. & 'MelodyPlayer' sequencer, 2024 - add processing/interactivity
  * 
  */
 
 package com.example;
 
-
 //importing the JMusic stuff
 import jm.music.data.*;
 import jm.util.*;
+
+//import FileSystem for cross-platform file referencing
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 
+//Processing
+import processing.core.*;
+
 //make sure this class name matches your file name, if not fix.
-public class App {
+public class App extends PApplet {
 
 	static MelodyPlayer player; //play a midi sequence
 	static MidiFileToNotes midiNotes; //read a midi file
-	static int noteCount = 0; 
+	static int noteCount = 0; //index into the array of notes to send to the MIDI file.
 	
 	//make cross-platform
 	static FileSystem sys = FileSystems.getDefault();
@@ -29,29 +33,29 @@ public class App {
 																// location/name
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-		//setup the melody player
-		//uncomment below when you are ready to test or present sound output
-		//make sure that it is commented out for your final submit to github (eg. when pushing)
-		setup();
-		playMelody();
-
-		//add your hello, world! code here!
-
-		//uncomment to debug your midi file
-		//this code MUST be commited when submitting unit tests to github
-		//playMidiFileDebugTest(filePath); 
+		PApplet.main("com.example.App");		
 	}
 
-	//doing all the setup stuff
-	public static void setup() {
+	public void settings()
+	{
+		size(500, 500);
 
+		//uncomment to debug your midi file 
+		//this code MUST be commited when submitting the project -- it is only for testing MIDI file access.
+		//playMidiFileDebugTest(filePath);
+	}
 
-		//playMidiFile(filePath); //use to debug -- this will play the ENTIRE file -- use ONLY to check if you have a valid path & file & it plays
-								  //it will NOT let you know whether you have opened file to get the data in the form you need for the assignment
+	//doing all the setup stuff for the midi and also make the background black
+	public void setup() {
 
+		background(0);
 		midiSetup(filePath);
+	}
+
+	//play the melody in real-time
+	public void draw()
+	{
+		playMelody(); 
 	}
 
 	//plays the midi file using the player -- so sends the midi to an external synth such as Kontakt or a DAW like Ableton or Logic
@@ -60,7 +64,7 @@ public class App {
 		//NOTE: for assert() to work, you need to change the Java extension settings to run with assertions enabled
 		assert(player != null); //this will throw an error if player is null -- eg. if you haven't called setup() first
 
-		while( !player.atEndOfMelody() )
+		if( !player.atEndOfMelody() )
 		{
 			player.play(); //play each note in the sequence -- the player will determine whether is time for a note onset
 		}
@@ -98,7 +102,8 @@ public class App {
 
 	}
 
-	static void resetMelody() {
+	//start the melody at the beginning again when a key is pressed
+	public void keyPressed() {
 		player.reset();
 
 	}
@@ -107,7 +112,7 @@ public class App {
 	//this just plays the midi file -- all of it via your software synth. You will not use this function in upcoming projects
 	//but it could be a good debug tool.
 	//filename -- the name of the midi file to play
-	static void playMidiFileDebugTest(String filename) {
+	void playMidiFileDebugTest(String filename) {
 		Score theScore = new Score("Temporary score");
 		Read.midi(theScore, filename);
 		Play.midi(theScore);

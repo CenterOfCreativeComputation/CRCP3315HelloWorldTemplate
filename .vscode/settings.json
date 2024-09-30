@@ -12,5 +12,6 @@
     "githubPullRequests.ignoredPullRequestBranches": [
         "main"
     ],
-    "maven.view": "flat"
+    "maven.view": "flat",
+    "java.configuration.updateBuildConfiguration": "interactive"
 }
