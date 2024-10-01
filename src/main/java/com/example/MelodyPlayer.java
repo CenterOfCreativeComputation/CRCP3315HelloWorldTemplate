@@ -93,6 +93,12 @@ public class MelodyPlayer {
 			return;
 		}
 
+		//if we're at the end of the melody
+		if(atEndOfMelody())
+		{
+			return;
+		}
+
 		int vel = 100; //midi velocity -- TODO: change/assign if want to vary
 		float cur_time = millis(); //what time is it now?
 		play = cur_time - last_time >= notems * rhythm_multiplier; //should we send the note now? based on prev. note's duration
@@ -103,7 +109,7 @@ public class MelodyPlayer {
 		//send a note off to previous note -- TODO: control note-offs on staccato or legato, etc. values
 		if (note_index <= melody.size() && note_index > 0 && play) {
 			outputMidiBus.sendNoteOff(0, (int) melody.get(note_index - 1), 0);
-			System.out.println("note off:" + (note_index - 1)); //TODO: comment out when not debugging or not needed
+			//System.out.println("note off:" + (note_index - 1)); //TODO: comment out when not debugging or not needed
 
 			// don't send anything else if done
 			if (note_index == melody.size() && lastNoteOff )
@@ -112,18 +118,29 @@ public class MelodyPlayer {
 			{
 				lastNoteOff = true; 
 			}
+
 		}
 		
 		//send out next pitch, find next rhythm / duration
 		if (note_index < melody.size() && note_index > -1 && play) {
 
 			outputMidiBus.sendNoteOn(0, (int) melody.get(note_index), vel);
-			System.out.println("note on:" + note_index); //TODO: comment out when not debugging or not needed
+			//System.out.println("note on:" + note_index); //TODO: comment out when not debugging or not needed
 			//get -- if its a noteOn, & what note
 			if (hasRhythm)
 				rhythm_multiplier = rhythm.get(note_index);
 
 			note_index++;
+
+			//this is tail-end recursion so could be optimized into a for-loop but TODO
+			if( note_index+1 < rhythm.size()-1)
+			{
+				rhythm_multiplier = rhythm.get(note_index+1);
+				play = cur_time - last_time >= notems * rhythm_multiplier; //should we send the note now? based on prev. note's duration
+				if(play) { play(); }
+			}
+
+			
 		}
 	}
 	
@@ -131,6 +148,16 @@ public class MelodyPlayer {
 	void reset() {
 		note_index = 0;
 		lastNoteOff = false;
+
+		System.out.println("Reset called!!");
+		System.out.println(new Error().getStackTrace().toString());
+	}
+
+	//set to ends
+	void setToEnd()
+	{
+		note_index = melody.size(); 
+		lastNoteOff = true;
 	}
 
 	//have we reached the end of the melody?
